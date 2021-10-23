@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PlatformService.Data;
 
 namespace PlatformService
 {
@@ -26,6 +28,12 @@ namespace PlatformService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Use InMemory database
+            services.AddDbContext<AppDbContext>(options => {
+                options.UseInMemoryDatabase("InMemory");
+            });
+
+            services.AddScoped<IPlatformRepository, PlatformRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,6 +51,9 @@ namespace PlatformService
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlatformService v1"));
             }
+
+            // Seed data
+            DataSeeder.SeedData(app);
 
             app.UseHttpsRedirection();
 
