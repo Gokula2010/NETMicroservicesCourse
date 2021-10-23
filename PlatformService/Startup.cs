@@ -36,6 +36,10 @@ namespace PlatformService
             services.AddScoped<IPlatformRepository, PlatformRepository>();
 
             services.AddControllers();
+
+            // Register Auto Mapper - this help to scan all implemention of AuotMapper profile in current domain's assemblies. 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PlatformService", Version = "v1" });
