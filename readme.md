@@ -1,6 +1,6 @@
 md NETMicroservicesCourse
 
-cde NETMicroservicesCourse 
+cd NETMicroservicesCourse 
 
 dotnet new webapi -n PlatformService
 
@@ -40,4 +40,17 @@ Kubectl get service => will list all the services. and it will proivde the port 
 ex:
 platformservice-service   NodePort    10.101.205.184   <none>        80:32267/TCP   28s
 
+
+# Create CommandService in root for the this folder
+
+dotnet new webapi -n CommandService
+
+cd CommandService
+
+
+## Install Packages
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.InMemory
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
