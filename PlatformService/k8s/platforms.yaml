@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: platform-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: platformservice
