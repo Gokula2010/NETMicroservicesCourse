@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PlatformService.Data;
+using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService
 {
@@ -32,6 +33,8 @@ namespace PlatformService
             services.AddDbContext<AppDbContext>(options => {
                 options.UseInMemoryDatabase("InMemory");
             });
+
+            services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
             services.AddScoped<IPlatformRepository, PlatformRepository>();
 
