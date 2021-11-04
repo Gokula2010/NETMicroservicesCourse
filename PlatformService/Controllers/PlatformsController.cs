@@ -7,22 +7,25 @@ using PlatformService.Data;
 using PlatformService.Dtos;
 using PlatformService.Models;
 using PlatformService.SyncDataServices.Http;
-
+using Serilog;
 namespace PlatformService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class PlatformsController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IPlatformRepository _repository;
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
 
         public PlatformsController(
+            ILogger logger, 
             IPlatformRepository repository,
             IMapper mapper,
             ICommandDataClient commandDataClient)
         {
+            this._logger = logger;
             this._repository = repository;
             this._mapper = mapper;
             this._commandDataClient = commandDataClient;
@@ -43,6 +46,8 @@ namespace PlatformService.Controllers
 
             if (platformItem == null)
             {
+                this._logger.Error($"{id} not found in Platform");
+                
                 return this.NotFound();
             }
 
@@ -67,9 +72,8 @@ namespace PlatformService.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"=> Could not send synchronsly : {ex.Message}");
+                this._logger.Error($"=> Could not send synchronsly : {ex.Message}");
             }
-
 
             return this.CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);
         }

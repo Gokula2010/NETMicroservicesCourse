@@ -5,16 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PlatformService.Dtos;
+using Serilog;
 
 namespace PlatformService.SyncDataServices.Http
 {
     public class HttpCommandDataClient : ICommandDataClient
     {
+        private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
 
-        public HttpCommandDataClient(IConfiguration configuration, HttpClient httpClient)
+        public HttpCommandDataClient(
+            ILogger logger,
+            IConfiguration configuration,
+            HttpClient httpClient)
         {
+            this._logger = logger;
             this._configuration = configuration;
             this._httpClient = httpClient;
         }
@@ -27,11 +33,15 @@ namespace PlatformService.SyncDataServices.Http
             );
 
             var response = await this._httpClient.PostAsync($"{this._configuration["CommandServiceEndPoint"]}", httpContent);
-            
-            var message = response.IsSuccessStatusCode ? "=> Sync POST to CommandService was OK!" : "=> Sync POST to CommandService was NOT OK!";
-            
-            Console.WriteLine(message);
 
+            if (response.IsSuccessStatusCode)
+            {
+                this._logger.Information("=> Sync POST to CommandService was OK!");
+            }
+            else
+            {
+                this._logger.Warning("=> Sync POST to CommandService was NOT OK!");
+            }
         }
     }
 }

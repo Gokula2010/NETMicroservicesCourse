@@ -3,13 +3,17 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using PlatformService.Models;
+using Serilog;
 
 namespace PlatformService.Data
 {
     public static class DataSeeder
     {
-        public static void SeedData(IApplicationBuilder app)
+        private static ILogger _logger;
+        public static void SeedData(ILogger loggerFactory, IApplicationBuilder app)
         {
+            _logger = loggerFactory;
+
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 Data(serviceScope.ServiceProvider.GetService<AppDbContext>());
@@ -20,19 +24,20 @@ namespace PlatformService.Data
         {
             if (!context.Platforms.Any())
             {
-                Console.WriteLine("Seeding data.");
+                _logger.Information("=> Seeding data.");
 
                 context.Platforms.AddRange(
                     new Platform() { Name = "DOT NET", Publisher = "Microsoft", Cost = "Free" },
                     new Platform() { Name = "SQL Server", Publisher = "Microsoft", Cost = "Free" },
                     new Platform() { Name = "Nodejs", Publisher = "Node.org", Cost = "Free" }
                 );
-                
+
                 context.SaveChanges();
+                _logger.Information("==> Data seed completed.");
             }
             else
             {
-                Console.WriteLine("We already have data");
+                _logger.Warning("==> We already have data");
             }
         }
     }

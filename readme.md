@@ -12,6 +12,9 @@ dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.InMemory
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
+dotnet add package Serilog.AspNetCore
+dotnet add package Serilog.Sinks.Console
+
 
 
 ## docker build
