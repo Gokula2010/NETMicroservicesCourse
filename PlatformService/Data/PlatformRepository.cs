@@ -13,7 +13,7 @@ namespace PlatformService.Data
         {
             this._context = context;
         }
-        public void CreatePlatform(Platform platform)
+        public void CreatePlatform(PlatformModel platform)
         {
             if( platform == null)
             {
@@ -23,12 +23,12 @@ namespace PlatformService.Data
             _context.Add(platform);
         }
 
-        public IEnumerable<Platform> GetAllPlatforms()
+        public IEnumerable<PlatformModel> GetAllPlatforms()
         {
             return _context.Platforms.ToList();
         }
 
-        public Platform GetByPlatformId(int id)
+        public PlatformModel GetByPlatformId(int id)
         {
             return _context.Platforms.FirstOrDefault(x => x.Id == id);
         }

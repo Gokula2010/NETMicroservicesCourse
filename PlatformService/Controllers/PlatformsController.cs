@@ -58,7 +58,7 @@ namespace PlatformService.Controllers
         public async Task<ActionResult<PlatformReadDto>> CreatePlatform(PlatformCreateDto createDto)
         {
 
-            var platformModel = this._mapper.Map<Platform>(createDto);
+            var platformModel = this._mapper.Map<PlatformModel>(createDto);
 
             this._repository.CreatePlatform(platformModel);
 

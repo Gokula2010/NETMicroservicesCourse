@@ -27,9 +27,9 @@ namespace PlatformService.Data
                 _logger.Information("=> Seeding data.");
 
                 context.Platforms.AddRange(
-                    new Platform() { Name = "DOT NET", Publisher = "Microsoft", Cost = "Free" },
-                    new Platform() { Name = "SQL Server", Publisher = "Microsoft", Cost = "Free" },
-                    new Platform() { Name = "Nodejs", Publisher = "Node.org", Cost = "Free" }
+                    new PlatformModel() { Name = "DOT NET", Publisher = "Microsoft", Cost = "Free" },
+                    new PlatformModel() { Name = "SQL Server", Publisher = "Microsoft", Cost = "Free" },
+                    new PlatformModel() { Name = "Nodejs", Publisher = "Node.org", Cost = "Free" }
                 );
 
                 context.SaveChanges();
