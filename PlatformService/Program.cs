@@ -21,7 +21,12 @@ namespace PlatformService
                             .WriteTo.Console(
                                 theme: SystemConsoleTheme.Literate,
                                 outputTemplate: "{Timestamp:HH:mm} [{Level}] {Message}{NewLine}{Exception}")
-                            .CreateBootstrapLogger();
+                            // .WriteTo.AzureEventHub(new RenderedCompactJsonFormatter(), "EventHub Connection String", "EventHub Name")
+                            .CreateLogger();
+
+            // To enable Serilog Self Diagnostics 
+            Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"Serilog Error: {msg}"));
+            
             try
             {
                 Log.Information("Starting Up");
@@ -39,18 +44,22 @@ namespace PlatformService
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog((context, services, configuration) => {
+                .UseSerilog((context, services, configuration) =>
+                {
                     configuration
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
                     .WriteTo.Console(new RenderedCompactJsonFormatter())
-                    .WriteTo.AzureEventHub("Endpoint=sb://azgkelk.servicebus.windows.net/;SharedAccessKeyName=elk-logs-policy;SharedAccessKey=dgXWeUxFiUoD2j7qGoJmUBjmcQlHuxy7o6cjiZ/T/DQ=;EntityPath=elk-logs", "elk-logs")
+                    // .WriteTo.AzureEventHub(new RenderedCompactJsonFormatter(), "EventHub Connection String", "EventHub Name")
                     // .WriteTo.Console(
                     //     theme: SystemConsoleTheme.Colored,
                     //     outputTemplate: "{Timestamp:HH:mm} [{Level}] {Message}{NewLine}{Exception}"
                     // )
                     ;
+
+                    // To enable Serilog Self Diagnostics 
+                    // Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"Serilog Error - : {msg}"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
