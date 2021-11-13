@@ -42,7 +42,7 @@ NodePort - can be composed in part for deployment yaml file or can be added in a
 Kubectl get service => will list all the services. and it will proivde the port 32276 that can accessed from outside world.
 ex:
 platformservice-service   NodePort    10.101.205.184   <none>        80:32267/TCP   28s
-
+http://localhost:32267/api/platforms
 
 # Create CommandService in root for the this folder
 
