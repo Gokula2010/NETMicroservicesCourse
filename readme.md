@@ -57,3 +57,21 @@ dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.InMemory
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
+
+
+#RabbitMQ
+
+- A Message Broker - it accepts and forwards messages
+- Messages are sent by Producers (or Publishers)
+- Messages are received by Consumers (or Subscribers)
+- Messages are stored on Queues (essentially a message buffer)
+- Exchanges can be used to add "routing" functionality
+- Uses Advanced Message Queuing Protocol (AMQP)
+
+##Exahanges 
+- Direct Exchanges
+- Fanout Exchange
+- Topic Exchange
+- Header Exchange
+
+dotnet add package RabbitMQ.Client

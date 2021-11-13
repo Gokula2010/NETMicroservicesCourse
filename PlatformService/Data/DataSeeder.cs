@@ -33,11 +33,11 @@ namespace PlatformService.Data
                 );
 
                 context.SaveChanges();
-                _logger.Information("==> Data seed completed.");
+                _logger.Information("Data seed completed.");
             }
             else
             {
-                _logger.Warning("==> We already have data");
+                _logger.Warning("We already have data");
             }
         }
     }

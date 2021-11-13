@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.SyncDataServices.Http;
 using Serilog;
@@ -30,7 +31,7 @@ namespace PlatformService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (HostingEnvironment.IsDevelopment())
+            // if (HostingEnvironment.IsDevelopment())
             {
                 // Use InMemory database for Development environment
                 services.AddDbContext<AppDbContext>(options =>
@@ -38,19 +39,24 @@ namespace PlatformService
                     options.UseInMemoryDatabase("InMemory");
                 });
             }
-            else
-            {
-                // Use SQL Server for Production environment
-                services.AddDbContext<AppDbContext>(options =>
-                {
-                    options.UseSqlServer(Configuration.GetConnectionString("PlatformsConnectionString"));
-                });
-            }
+            // else
+            // {
+            //     // Use SQL Server for Production environment
+            //     services.AddDbContext<AppDbContext>(options =>
+            //     {
+            //         options.UseSqlServer(Configuration.GetConnectionString("PlatformsConnectionString"));
+            //     });
+            // }
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
-
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
+            
             services.AddScoped<IPlatformRepository, PlatformRepository>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options => {
+                    options.JsonSerializerOptions.WriteIndented = true;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             // Register Auto Mapper - this help to scan all implemention of AuotMapper profile in current domain's assemblies. 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
