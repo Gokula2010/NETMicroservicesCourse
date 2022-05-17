@@ -51,11 +51,14 @@ namespace CommandService.Data
             return this._context.Commands.Where(x => x.PlatformId == platformId);
         }
 
-        public bool PlatformExist(int platformId)
+        public bool PlatformExists(int platformId)
         {
             return this._context.Platforms.Any(x => x.Id == platformId);
         }
-
+        public bool ExternalPlatformExists(int externalPlatformId)
+        {
+            return this._context.Platforms.Any(x => x.ExternlId == externalPlatformId);
+        }
         public bool SaveChanges()
         {
             return (this._context.SaveChanges() > 0);

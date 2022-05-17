@@ -70,15 +70,16 @@ namespace PlatformService.Controllers
 
             var platformReadDto = this._mapper.Map<PlatformReadDto>(platformModel);
 
-            try
-            {
-                await this._commandDataClient.SendPlatformToCommand(platformReadDto);
-            }
-            catch (Exception ex)
-            {
-                this._logger.Error($"Could not send synchronsly : {ex.Message}");
-            }
+            // try
+            // {
+            //     await this._commandDataClient.SendPlatformToCommand(platformReadDto);
+            // }
+            // catch (Exception ex)
+            // {
+            //     this._logger.Error($"Could not send synchronously : {ex.Message}");
+            // }
 
+            await Task.CompletedTask;
             try
             {
                 var platformPublishedDto = this._mapper.Map<PlatformPublishDto>(platformReadDto);
@@ -87,7 +88,7 @@ namespace PlatformService.Controllers
             }
             catch (Exception ex)
             {
-                this._logger.Error($"Could not send asynchronsly : {ex.Message}");
+                this._logger.Error($"Could not send asynchronously : {ex.Message}");
             }
 
             return this.CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);

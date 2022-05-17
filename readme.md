@@ -75,3 +75,15 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 - Header Exchange
 
 dotnet add package RabbitMQ.Client
+
+
+#Dependnecy Injection
+
+##Singleton
+Created first time requested, subsequent requests use the same instance
+
+##Scoped
+Same within a reqeust but created for every new request
+
+##Transient
+New instance provided everytime, never the same/reused

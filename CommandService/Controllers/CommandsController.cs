@@ -23,7 +23,7 @@ namespace CommandService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDto>> GetCommandsForPlatform(int platformId)
         {
-            if (!this._commandRepository.PlatformExist(platformId))
+            if (!this._commandRepository.PlatformExists(platformId))
             {
                 return this.NotFound();
             }
@@ -36,7 +36,7 @@ namespace CommandService.Controllers
         [HttpGet("{commandId}")]
         public ActionResult<CommandReadDto> GetCommandForPlatform(int platformId, int commandId)
         {
-            if (!this._commandRepository.PlatformExist(platformId))
+            if (!this._commandRepository.PlatformExists(platformId))
             {
                 return this.NotFound();
             }
@@ -53,7 +53,7 @@ namespace CommandService.Controllers
         [HttpPost]
         public ActionResult<CommandReadDto> CreateCommandsForPlatform(int platformId, CommandCreateDto commandCreateDto)
         {
-            if (!this._commandRepository.PlatformExist(platformId))
+            if (!this._commandRepository.PlatformExists(platformId))
             {
                 return this.NotFound();
             }
